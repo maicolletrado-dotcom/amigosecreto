@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amigo secreto de Navidad</title>
+<meta name="description" content="Amigo secreto navideño: listas de deseos y sorteo secreto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PALETA "ETIQUETA DE REGALO" — pino, latón y papel crema
+   ============================================================ */
+:root{
+  --pino:#0C2A22;
+  --pino-2:#113629;
+  --pino-3:#174436;
+  --crema:#F3ECDD;
+  --laton:#D9A441;
+  --rojo:#E0564C;
+  --hielo:#8FD6C0;
+  --mute:#9AB0A5;
+  --linea:rgba(217,164,65,.30);
+  --radio:16px;
+  --sombra:0 18px 44px rgba(0,0,0,.38);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--pino);
+  background-image:
+    radial-gradient(ellipse at 20% -5%, rgba(217,164,65,.17), transparent 55%),
+    radial-gradient(ellipse at 92% 10%, rgba(224,86,76,.13), transparent 48%),
+    radial-gradient(ellipse at 50% 108%, rgba(143,214,192,.10), transparent 55%);
+  background-attachment:fixed;
+  color:var(--crema);
+  font-family:'Karla',system-ui,sans-serif;
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:700;line-height:1.02;letter-spacing:-.015em;margin:0}
+a{color:var(--laton)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--laton);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+/* ---------- Cabecera ---------- */
+.top{padding:28px 0 0}
+.marca{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.marca .sello{
+  border:1px solid var(--linea);color:var(--laton);padding:7px 15px;border-radius:999px;
+  font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+}
+.marca .fecha{font-size:13.5px;color:var(--mute)}
+
+.tabs{display:flex;gap:6px;margin:24px 0 0;flex-wrap:wrap;border-bottom:1px solid var(--linea);padding-bottom:0}
+.tab{
+  border:none;background:none;color:var(--mute);padding:11px 16px 13px;font-size:15px;font-weight:600;
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s;
+}
+.tab:hover{color:var(--crema)}
+.tab[aria-selected="true"]{color:var(--laton);border-bottom-color:var(--laton)}
+
+/* ---------- Hero ---------- */
+.hero{padding:46px 0 10px}
+.hero-grid{display:grid;grid-template-columns:1.45fr .85fr;gap:40px;align-items:start}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}}
+.hero .kicker{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--laton);margin:0 0 16px;font-weight:600}
+.hero h1{font-size:clamp(38px,6.6vw,72px);text-wrap:balance}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--laton)}
+.hero .bajada{margin:20px 0 0;color:var(--mute);font-size:17px;max-width:46ch}
+.regla{height:1px;background:var(--linea);margin:26px 0}
+
+/* etiqueta de regalo colgante */
+.etiqueta-precio{
+  background:var(--crema);color:#2A2118;border-radius:12px;padding:20px 20px 18px;
+  position:relative;transform:rotate(-1.6deg);box-shadow:var(--sombra);margin-top:34px;
+}
+.etiqueta-precio::before{
+  content:"";position:absolute;top:13px;left:50%;transform:translateX(-50%);
+  width:15px;height:15px;border-radius:50%;background:var(--pino);
+}
+.etiqueta-precio .hilo{
+  position:absolute;top:-34px;left:50%;width:1px;height:42px;background:var(--linea);
+}
+.etiqueta-precio .lbl{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A7A5E;margin:22px 0 4px;font-weight:700}
+.etiqueta-precio .val{font-family:'Fraunces';font-size:30px;line-height:1.1}
+.etiqueta-precio .val small{font-size:15px;font-family:'Karla';color:#8A7A5E}
+.etiqueta-precio .nota{font-size:13.2px;color:#6E6250;margin-top:8px}
+
+.cuenta{
+  margin-top:22px;border:1px solid var(--linea);border-radius:var(--radio);padding:18px;
+  background:rgba(255,255,255,.03);
+}
+.cuenta .n{font-family:'Fraunces';font-size:40px;line-height:1;color:var(--laton)}
+.cuenta .t{font-size:14px;color:var(--mute);margin-top:4px}
+.barra{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:14px}
+.barra i{display:block;height:100%;background:var(--hielo);width:0;transition:width .6s ease}
+
+.cta{
+  display:inline-flex;align-items:center;gap:9px;border:1px solid var(--laton);
+  background:var(--laton);color:#241B08;font-weight:700;font-size:15.5px;
+  padding:13px 26px;border-radius:999px;cursor:pointer;transition:transform .14s, box-shadow .14s, background .14s;
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(217,164,65,.28)}
+.cta[disabled]{background:transparent;color:var(--mute);border-color:rgba(255,255,255,.14);cursor:not-allowed;transform:none;box-shadow:none}
+.cta.sec{background:transparent;color:var(--crema);border-color:var(--linea)}
+.cta.sec:hover{border-color:var(--laton);box-shadow:none}
+.cta.rojo{background:var(--rojo);border-color:var(--rojo);color:#fff}
+
+/* ---------- Secciones ---------- */
+section[role="tabpanel"]{padding:12px 0 80px}
+section[hidden]{display:none}
+.encabezado{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin:46px 0 26px;flex-wrap:wrap}
+.encabezado h2{font-size:clamp(24px,3.6vw,36px)}
+.encabezado p{margin:9px 0 0;color:var(--mute);font-size:15px;max-width:58ch}
+
+/* ---------- Etiquetas colgando ---------- */
+.gente{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:44px 20px}
+.persona{position:relative;padding-top:30px;text-align:center}
+.persona::before{content:"";position:absolute;top:0;left:50%;width:1px;height:30px;background:var(--linea)}
+.tarjeta{
+  background:var(--pino-2);border:1px solid var(--linea);border-radius:12px;padding:26px 12px 14px;
+  position:relative;box-shadow:var(--sombra);transition:transform .2s;
+}
+.persona:nth-child(odd) .tarjeta{transform:rotate(-1.4deg)}
+.persona:nth-child(even) .tarjeta{transform:rotate(1.2deg)}
+.persona:hover .tarjeta{transform:rotate(0) translateY(-3px)}
+.tarjeta::before{
+  content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:13px;height:13px;border-radius:50%;background:var(--pino);border:1px solid var(--linea);
+}
+.foto{
+  width:100%;aspect-ratio:1;border-radius:9px;overflow:hidden;background:var(--pino-3);
+  display:grid;place-items:center;border:1px solid var(--linea);
+}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.iniciales{font-family:'Fraunces';font-size:30px;color:var(--mute)}
+.persona .nom{margin-top:11px;font-weight:700;font-size:15.5px}
+.persona .mini{font-size:12.5px;color:var(--mute)}
+.persona.libre .tarjeta{background:transparent;border-style:dashed;box-shadow:none}
+.persona.libre .nom{color:var(--mute);font-weight:500}
+
+/* ---------- Sorteo ---------- */
+.pasos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:780px){.pasos{grid-template-columns:1fr}}
+.paso{border:1px solid var(--linea);border-radius:var(--radio);padding:24px;background:rgba(255,255,255,.03);position:relative}
+.paso.ok{border-color:rgba(143,214,192,.42);background:rgba(143,214,192,.07)}
+.paso .estado{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.paso.ok .estado{color:var(--hielo)}
+.paso h3{font-size:18px;margin:10px 0 16px}
+.numerote{font-family:'Fraunces';font-size:clamp(44px,8vw,66px);line-height:.95;color:var(--laton)}
+.paso.ok .numerote{color:var(--hielo)}
+.paso p{margin:10px 0 0;font-size:14.5px;color:var(--mute)}
+
+.ruleta-zona{margin-top:44px;display:grid;grid-template-columns:330px 1fr;gap:38px;align-items:center}
+@media(max-width:780px){.ruleta-zona{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.bola{position:relative;width:310px;height:330px;padding-top:30px}
+.bola .tapa{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);width:26px;height:22px;
+  background:var(--laton);border-radius:4px 4px 2px 2px;z-index:3;
+}
+.bola .argolla{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:16px;height:16px;
+  border:2px solid var(--laton);border-radius:50%;z-index:3;
+}
+.aguja{
+  position:absolute;top:26px;left:50%;transform:translateX(-50%);z-index:4;
+  width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid var(--crema);
+}
+.disco{width:300px;height:300px;margin:0 auto;transition:transform 5s cubic-bezier(.12,.72,.11,1)}
+.disco svg{display:block;filter:drop-shadow(0 16px 32px rgba(0,0,0,.5))}
+.centro{
+  position:absolute;top:calc(50% + 15px);left:50%;transform:translate(-50%,-50%);
+  width:96px;height:96px;border-radius:50%;background:var(--pino);border:1px solid var(--linea);
+  display:grid;place-items:center;font-family:'Fraunces';font-size:34px;color:var(--laton);z-index:2;
+}
+.revelado{border:1px solid var(--laton);border-radius:var(--radio);padding:26px;background:rgba(217,164,65,.08)}
+.revelado .et{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--laton);font-weight:700}
+.revelado .quien{font-family:'Fraunces';font-size:clamp(30px,5vw,46px);margin:8px 0 14px}
+.revelado ol{margin:10px 0 0;padding-left:20px;font-size:15px}
+.revelado ol li::marker{color:var(--laton)}
+.aviso{border:1px dashed var(--linea);border-radius:var(--radio);padding:16px 18px;font-size:14.5px;color:var(--mute)}
+
+/* ---------- Modal ---------- */
+.fondo{position:fixed;inset:0;background:rgba(5,16,13,.76);backdrop-filter:blur(3px);display:grid;place-items:center;padding:18px;z-index:50;overflow:auto}
+.modal{background:var(--pino-2);border:1px solid var(--linea);border-radius:18px;box-shadow:var(--sombra);width:min(560px,100%);max-height:92vh;overflow:auto}
+.modal .mcab{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 22px;border-bottom:1px solid var(--linea)}
+.modal .mcab h3{font-size:21px}
+.modal .cuerpo{padding:22px}
+.cerrar{background:none;border:1px solid var(--linea);color:var(--crema);border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;line-height:1;flex:none}
+.campo{margin-bottom:16px}
+.campo label{display:block;font-weight:700;font-size:13.5px;margin-bottom:7px}
+.campo .ayuda{font-weight:400;color:var(--mute);font-size:12.5px}
+input,select,textarea{
+  width:100%;padding:12px 14px;border:1px solid var(--linea);border-radius:10px;
+  background:rgba(0,0,0,.22);font-family:inherit;font-size:15px;color:var(--crema);
+}
+select option{background:var(--pino-2);color:var(--crema)}
+input::placeholder{color:#6E8279}
+input[type=file]{padding:9px;color:var(--mute)}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:520px){.fila{grid-template-columns:1fr}}
+.prev{width:74px;height:74px;border-radius:10px;border:1px solid var(--linea);object-fit:cover;display:none}
+.err{background:rgba(224,86,76,.16);border:1px solid var(--rojo);color:#FFC9C5;border-radius:10px;padding:11px 14px;font-size:14px;margin-bottom:15px}
+.oktxt{background:rgba(143,214,192,.13);border:1px solid rgba(143,214,192,.5);color:var(--hielo);border-radius:10px;padding:11px 14px;font-size:14px;margin-bottom:15px}
+.mini{font-size:13px;color:var(--mute)}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid rgba(255,255,255,.08)}
+th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+
+.pie-pagina{border-top:1px solid var(--linea);padding:24px 0 44px;font-size:13.5px;color:var(--mute);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.banner-demo{background:var(--rojo);color:#fff;text-align:center;padding:10px 16px;font-size:13.5px;font-weight:600}
+.vacio{border:1px dashed var(--linea);border-radius:var(--radio);padding:30px;text-align:center;color:var(--mute)}
+
+@media (prefers-reduced-motion: reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
+</style>
+</head>
+<body>
+
+<div id="banner"></div>
+
+<div class="wrap top">
+  <div class="marca">
+    <span class="sello">Amigo secreto · Navidad</span>
+    <span class="fecha" id="fechaEvento"></span>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="inicio" aria-selected="true">Inicio</button>
+    <button class="tab" role="tab" data-tab="sorteo" aria-selected="false">Sorteo de amigo secreto</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ INICIO ============ -->
+  <section role="tabpanel" id="panel-inicio">
+    <div class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">Diciembre de 2026</p>
+          <h1 id="heroTitulo"></h1>
+          <p class="bajada" id="heroBajada"></p>
+          <div class="regla"></div>
+          <button class="cta" data-action="abrir-registro">Inscribirme</button>
+          <button class="cta sec" data-action="editar-mios" style="margin-left:10px">Editar lo mío</button>
+        </div>
+        <div>
+          <div class="etiqueta-precio">
+            <span class="hilo"></span>
+            <div class="lbl">Presupuesto</div>
+            <div class="val" id="heroPresu"></div>
+            <div class="nota" id="heroNota"></div>
+          </div>
+          <div class="cuenta">
+            <div class="n" id="faltanHero">–</div>
+            <div class="t" id="faltanHeroTxt">cargando inscripciones…</div>
+            <div class="barra"><i id="barraHero"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="encabezado">
+      <div>
+        <h2>Quiénes juegan</h2>
+        <p>Busca tu nombre, sube tu foto y listo. Nadie sabe a quién le toca hasta el sorteo.</p>
+      </div>
+    </div>
+    <div class="gente" id="gente"></div>
+  </section>
+
+  <!-- ============ SORTEO ============ -->
+  <section role="tabpanel" id="panel-sorteo" hidden>
+    <div class="encabezado">
+      <div>
+        <h2>Sorteo de amigo secreto</h2>
+        <p>Dos cosas tienen que pasar antes de girar la ruleta.</p>
+      </div>
+    </div>
+
+    <div class="pasos">
+      <div class="paso" id="paso1">
+        <div class="estado" id="paso1Estado">En curso</div>
+        <h3>1. Que estemos todos inscritos</h3>
+        <div class="numerote" id="paso1Num">–</div>
+        <p id="paso1Txt">Cargando…</p>
+        <div class="barra" style="margin-top:16px"><i id="paso1Barra"></i></div>
+      </div>
+      <div class="paso" id="paso2">
+        <div class="estado" id="paso2Estado">Pendiente</div>
+        <h3>2. Que el organizador dé la orden</h3>
+        <div class="numerote" id="paso2Num">–</div>
+        <p id="paso2Txt">Cargando…</p>
+        <p style="margin-top:18px"><button class="cta sec" data-action="abrir-admin">Panel del organizador</button></p>
+      </div>
+    </div>
+
+    <div class="ruleta-zona">
+      <div class="bola">
+        <span class="argolla"></span><span class="tapa"></span><span class="aguja"></span>
+        <div class="disco" id="disco"></div>
+        <div class="centro" id="centroRuleta">?</div>
+      </div>
+      <div id="ladoRuleta">
+        <div class="aviso" id="avisoRuleta">La ruleta se activa cuando el sorteo esté hecho.</div>
+        <p style="margin-top:18px"><button class="cta" data-action="ver-mio" id="btnVerMio" disabled>Ver mi amigo secreto</button></p>
+        <p class="mini" style="max-width:46ch">Cada quien abre el suyo con su clave. Nadie más puede verlo, ni siquiera abriendo la base de datos: los resultados quedan cifrados.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="wrap">
+  <div class="pie-pagina">
+    <span>Amigo secreto navideño</span>
+    <span id="estadoConexion">—</span>
+  </div>
+</div>
+
+<div id="modales"></div>
+
+<script type="module">
+/* ==========================================================================
+   1. CONFIGURACIÓN — esto es lo único que necesitas tocar
+   ========================================================================== */
+const CONFIG = {
+  // Sala distinta a la de septiembre: los dos juegos viven en la misma base
+  // de datos sin mezclarse. Si quieres empezar de cero, cámbiala.
+  sala: "navidad-2026",
+
+  // Fecha del intercambio (ISO, -05:00 es Colombia).
+  fechaIntercambio: "2026-12-12T17:00:00-05:00",
+
+  // Titular de la portada. Lo que vaya entre <em></em> sale en dorado cursiva.
+  tema: "Un Funko Pop <em>y un cuadro pintado por ti</em>",
+  bajada: "Dos regalos para la misma persona: el Funko que compras y el cuadro que pintas con tus propias manos. Lo segundo es lo que vale, así te quede torcido.",
+
+  presupuesto: 70000,
+  notaPresupuesto: "Es para el Funko. Si sale por menos, completa con unas medias random.",
+
+  // La lista oficial. Si alguien más se suma, agrégalo aquí.
+  participantes: ["Michael","Esmeralda","Katherine","Laura","Rafael","Cristian",
+                  "Magda","Judy","Sergio","Camilo","Jairo","Alejandra","Lina","Daniel"],
+
+  // Parejas o familiares que NO se deben tocar entre sí. Ejemplo:
+  // exclusiones: [["Michael","Esmeralda"], ["Lina","Daniel"]],
+  exclusiones: [],
+
+  firebase: {
+    apiKey: "AIzaSyCVidXXITMPP3kgckZfcvS46IHueudZTQM",
+    authDomain: "amigosecreto-83f4b.firebaseapp.com",
+    databaseURL: "https://amigosecreto-83f4b-default-rtdb.firebaseio.com",
+    projectId: "amigosecreto-83f4b",
+    storageBucket: "amigosecreto-83f4b.firebasestorage.app",
+    messagingSenderId: "195568373668",
+    appId: "1:195568373668:web:d57a5719b6fe6cd1ee7b31"
+  }
+};
+
+/* ==========================================================================
+   2. UTILIDADES
+   ========================================================================== */
+const $  = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+const slug = n => n.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                   .toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+const esc = t => String(t ?? "").replace(/[&<>"']/g, m =>
+  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[m]));
+
+const iniciales = n => n.trim().slice(0, 2).toUpperCase();
+const pesos = n => "$" + n.toLocaleString("es-CO");
+
+
+/* ==========================================================================
+   3. CIFRADO
+   Cada persona genera un par de llaves al inscribirse. Su llave privada queda
+   guardada cifrada con SU clave personal. El sorteo cifra el resultado con la
+   llave pública de cada quien, así que ni abriendo la base de datos se ve nada.
+   ========================================================================== */
+const ENC = new TextEncoder(), DEC = new TextDecoder();
+const b64  = u8 => btoa(String.fromCharCode(...new Uint8Array(u8)));
+const deb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+async function llaveDesdeClave(clave, salt) {
+  const base = await crypto.subtle.importKey("raw", ENC.encode(clave), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: 120000, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+async function cifrarBytes(clave, bytes) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const k    = await llaveDesdeClave(clave, salt);
+  const ct   = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, k, bytes);
+  return { s: b64(salt), i: b64(iv), c: b64(ct) };
+}
+async function descifrarBytes(clave, blob) {
+  const k  = await llaveDesdeClave(clave, deb64(blob.s));
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: deb64(blob.i) }, k, deb64(blob.c));
+  return new Uint8Array(pt);
+}
+const cifrarTexto    = (clave, txt) => cifrarBytes(clave, ENC.encode(txt));
+const descifrarTexto = async (clave, blob) => DEC.decode(await descifrarBytes(clave, blob));
+
+async function generarParLlaves() {
+  const par = await crypto.subtle.generateKey(
+    { name: "RSA-OAEP", modulusLength: 2048, publicExponent: new Uint8Array([1,0,1]), hash: "SHA-256" },
+    true, ["encrypt", "decrypt"]);
+  return {
+    publica: b64(await crypto.subtle.exportKey("spki", par.publicKey)),
+    privada: await crypto.subtle.exportKey("pkcs8", par.privateKey)
+  };
+}
+async function cifrarConPublica(publicaB64, texto) {
+  const k = await crypto.subtle.importKey("spki", deb64(publicaB64),
+    { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
+  return b64(await crypto.subtle.encrypt({ name: "RSA-OAEP" }, k, ENC.encode(texto)));
+}
+async function descifrarConPrivada(privadaBytes, ctB64) {
+  const k = await crypto.subtle.importKey("pkcs8", privadaBytes,
+    { name: "RSA-OAEP", hash: "SHA-256" }, false, ["decrypt"]);
+  return DEC.decode(await crypto.subtle.decrypt({ name: "RSA-OAEP" }, k, deb64(ctB64)));
+}
+
+/* ==========================================================================
+   4. ALMACENAMIENTO — Firebase si está configurado, si no modo demo local
+   ========================================================================== */
+const almacen = (() => {
+  const usaFirebase = !!(CONFIG.firebase && CONFIG.firebase.apiKey && CONFIG.firebase.databaseURL);
+  let db = null, fb = null, escuchas = [];
+  let memoria = { participantes: {}, sorteo: null, admin: null };
+
+  const LS = "amigo-secreto:" + CONFIG.sala;
+  const leerLocal = () => { try { return JSON.parse(localStorage.getItem(LS)) || null; } catch { return null; } };
+  const guardarLocal = d => { try { localStorage.setItem(LS, JSON.stringify(d)); } catch {} };
+
+  function fijar(obj, ruta, valor) {
+    const partes = ruta.split("/");
+    let n = obj;
+    for (let i = 0; i < partes.length - 1; i++) {
+      if (typeof n[partes[i]] !== "object" || n[partes[i]] === null) n[partes[i]] = {};
+      n = n[partes[i]];
+    }
+    if (valor === null) delete n[partes.at(-1)];
+    else n[partes.at(-1)] = valor;
+  }
+
+  return {
+    usaFirebase,
+    async iniciar() {
+      if (!usaFirebase) {
+        memoria = leerLocal() || memoria;
+        setTimeout(() => escuchas.forEach(f => f(memoria)), 0);
+        return;
+      }
+      const appMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
+      fb = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js");
+      db = fb.getDatabase(appMod.initializeApp(CONFIG.firebase));
+      fb.onValue(fb.ref(db, "salas/" + CONFIG.sala), snap => {
+        const d = snap.val() || { participantes: {}, sorteo: null, admin: null };
+        escuchas.forEach(f => f(d));
+      });
+    },
+    alCambiar(f) { escuchas.push(f); },
+    async guardar(ruta, valor) {
+      if (!usaFirebase) {
+        fijar(memoria, ruta, valor);
+        guardarLocal(memoria);
+        escuchas.forEach(f => f(memoria));
+        return;
+      }
+      await fb.set(fb.ref(db, `salas/${CONFIG.sala}/${ruta}`), valor);
+    }
+  };
+})();
+
+/* ==========================================================================
+   5. ESTADO
+   ========================================================================== */
+const estado = { datos: { participantes: {}, sorteo: null, admin: null } };
+
+const listaIds   = () => CONFIG.participantes.map(n => ({ id: slug(n), nombre: n }));
+const inscritos  = () => listaIds().filter(p => estado.datos.participantes?.[p.id]);
+const pendientes = () => listaIds().filter(p => !estado.datos.participantes?.[p.id]);
+const sorteoHecho = () => !!estado.datos.sorteo?.asignaciones;
+
+/* ==========================================================================
+   6. PINTAR LA PÁGINA
+   ========================================================================== */
+function pintarTodo() { pintarHero(); pintarGente(); pintarSorteo(); }
+
+function pintarHero() {
+  $("#heroTitulo").innerHTML = CONFIG.tema;
+  $("#heroBajada").textContent = CONFIG.bajada;
+  $("#heroPresu").innerHTML = `${pesos(CONFIG.presupuesto)} <small>para el Funko</small>`;
+  $("#heroNota").textContent = CONFIG.notaPresupuesto;
+
+  const total = CONFIG.participantes.length;
+  const n = inscritos().length, faltan = total - n;
+  $("#faltanHero").textContent = faltan === 0 ? "Completo" : faltan;
+  $("#faltanHeroTxt").textContent = faltan === 0
+    ? `Las ${total} personas están inscritas.`
+    : `${faltan === 1 ? "persona falta" : "personas faltan"} por inscribirse · ${n} de ${total} listas`;
+  $("#barraHero").style.width = (n / total * 100) + "%";
+
+  const f = new Date(CONFIG.fechaIntercambio);
+  const dias = Math.ceil((f - Date.now()) / 86400000);
+  const txt = f.toLocaleDateString("es-CO", { day: "numeric", month: "long" });
+  $("#fechaEvento").textContent = dias > 0 ? `Intercambio el ${txt} · faltan ${dias} días` : `Intercambio el ${txt}`;
+}
+
+function pintarGente() {
+  $("#gente").innerHTML = listaIds().map(p => {
+    const d = estado.datos.participantes?.[p.id];
+    const foto = d?.foto
+      ? `<img src="${d.foto}" alt="Foto de ${esc(p.nombre)}">`
+      : `<span class="iniciales">${esc(iniciales(p.nombre))}</span>`;
+    return `<div class="persona${d ? "" : " libre"}">
+      <div class="tarjeta">
+        <div class="foto">${foto}</div>
+        <div class="nom">${esc(p.nombre)}</div>
+        <div class="mini">${d ? "✓ Listo" : "Sin inscribir"}</div>
+      </div></div>`;
+  }).join("");
+}
+
+function pintarSorteo() {
+  const total = CONFIG.participantes.length;
+  const n = inscritos().length, faltan = total - n;
+  const listo = faltan === 0;
+
+  $("#paso1").classList.toggle("ok", listo);
+  $("#paso1Estado").textContent = listo ? "Completo" : "En curso";
+  $("#paso1Num").textContent = listo ? "0" : faltan;
+  $("#paso1Txt").textContent = listo
+    ? `Las ${total} personas ya subieron su foto.`
+    : `${faltan === 1 ? "persona falta" : "personas faltan"}: ${pendientes().map(p => p.nombre).join(", ")}.`;
+  $("#paso1Barra").style.width = (n / total * 100) + "%";
+
+  const hecho = sorteoHecho();
+  $("#paso2").classList.toggle("ok", hecho);
+  $("#paso2Estado").textContent = hecho ? "Listo" : (listo ? "Su turno" : "Pendiente");
+  $("#paso2Num").textContent = hecho ? "¡Ya!" : (listo ? "1" : "—");
+  $("#paso2Txt").textContent = hecho
+    ? `Sorteo realizado el ${new Date(estado.datos.sorteo.fecha).toLocaleString("es-CO")}. Cada quien ya puede abrir el suyo.`
+    : listo
+      ? "Falta solo que el organizador entre al panel y lance la ruleta."
+      : "Se habilita apenas se inscriba la última persona.";
+
+  $("#btnVerMio").disabled = !hecho;
+  if ($("#avisoRuleta")) $("#avisoRuleta").textContent = hecho
+    ? "Gira la ruleta con tu clave. Los signos de interrogación no cambian: solo tú ves el nombre al final."
+    : "La ruleta se activa cuando el sorteo esté hecho.";
+
+  if (!$("#disco").innerHTML) $("#disco").innerHTML = ruletaSVG(Math.max(total, 6));
+}
+
+function ruletaSVG(n) {
+  const R = 145, cx = 150, cy = 150;
+  const tintas = ["#174436", "#E0564C", "#D9A441", "#0C2A22", "#8FD6C0"];
+  const letras = ["#F3ECDD", "#2A1512", "#241B08", "#F3ECDD", "#0C2A22"];
+  let out = "";
+  for (let i = 0; i < n; i++) {
+    const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
+    const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
+    const x0 = cx + R * Math.cos(a0), y0 = cy + R * Math.sin(a0);
+    const x1 = cx + R * Math.cos(a1), y1 = cy + R * Math.sin(a1);
+    const grande = (a1 - a0) > Math.PI ? 1 : 0;
+    const am = (a0 + a1) / 2;
+    const lx = cx + R * 0.66 * Math.cos(am), ly = cy + R * 0.66 * Math.sin(am);
+    out += `<path d="M${cx} ${cy} L${x0.toFixed(2)} ${y0.toFixed(2)} A${R} ${R} 0 ${grande} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z"
+             fill="${tintas[i % tintas.length]}" stroke="#D9A441" stroke-width="1"/>`;
+    out += `<text x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" text-anchor="middle" dominant-baseline="central"
+             font-family="Fraunces, Georgia, serif" font-size="25" font-weight="700" fill="${letras[i % letras.length]}"
+             transform="rotate(${(am * 180 / Math.PI + 90).toFixed(1)} ${lx.toFixed(2)} ${ly.toFixed(2)})">?</text>`;
+  }
+  return `<svg viewBox="0 0 300 300" width="300" height="300" role="img" aria-label="Ruleta secreta">
+    <circle cx="150" cy="150" r="148" fill="#D9A441"/>${out}</svg>`;
+}
+
+/* ==========================================================================
+   7. MODALES
+   ========================================================================== */
+function abrirModal(titulo, html) {
+  $("#modales").innerHTML = `<div class="fondo" data-fondo>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="${esc(titulo)}">
+      <div class="mcab"><h3>${esc(titulo)}</h3><button class="cerrar" data-cerrar aria-label="Cerrar">✕</button></div>
+      <div class="cuerpo">${html}</div>
+    </div></div>`;
+  const f = $("[data-fondo]");
+  f.addEventListener("click", e => { if (e.target === f) cerrarModal(); });
+  $("[data-cerrar]").addEventListener("click", cerrarModal);
+  document.addEventListener("keydown", escapeCierra);
+  return $(".modal .cuerpo");
+}
+function cerrarModal() {
+  $("#modales").innerHTML = "";
+  document.removeEventListener("keydown", escapeCierra);
+}
+const escapeCierra = e => { if (e.key === "Escape") cerrarModal(); };
+const mostrarError = (c, t) => { let e = $(".err", c); if (!e) { e = document.createElement("div"); e.className = "err"; c.prepend(e); } e.textContent = t; };
+
+function procesarFoto(archivo, lado = 320) {
+  return new Promise((ok, mal) => {
+    if (archivo.size > 12 * 1024 * 1024) return mal(new Error("La imagen pesa más de 12 MB."));
+    const img = new Image(), url = URL.createObjectURL(archivo);
+    img.onload = () => {
+      const l = Math.min(img.width, img.height);
+      const c = document.createElement("canvas");
+      c.width = c.height = lado;
+      c.getContext("2d").drawImage(img, (img.width - l) / 2, (img.height - l) / 2, l, l, 0, 0, lado, lado);
+      URL.revokeObjectURL(url);
+      ok(c.toDataURL("image/jpeg", 0.75));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); mal(new Error("Ese archivo no se pudo leer como imagen.")); };
+    img.src = url;
+  });
+}
+
+/* ---------- Inscripción / edición ---------- */
+function formularioHTML(d, opciones) {
+  return `
+    ${opciones.selector}
+    <div class="campo">
+      <label for="f-foto">Tu foto <span class="ayuda">Se recorta cuadrada y se reduce sola.</span></label>
+      <div style="display:flex;gap:12px;align-items:center">
+        <input type="file" id="f-foto" accept="image/*" style="flex:1">
+        <img class="prev" id="f-prev" alt="" ${d?.foto ? `src="${d.foto}" style="display:block"` : ""}>
+      </div>
+    </div>
+    ${opciones.clave}
+    <button class="cta" id="f-guardar">${opciones.boton}</button>`;
+}
+
+function abrirRegistro() {
+  if (sorteoHecho()) return abrirModal("Inscripciones cerradas",
+    `<p>El sorteo ya se hizo, así que no se pueden agregar personas nuevas. Si hay un caso especial, habla con el organizador.</p>`);
+
+  const libres = pendientes();
+  if (!libres.length) return abrirModal("Ya estamos todos",
+    `<p>Las ${CONFIG.participantes.length} personas están inscritas. Si necesitas cambiar algo tuyo, usa <b>Editar lo mío</b>.</p>`);
+
+  const c = abrirModal("Inscribirme", formularioHTML(null, {
+    selector: `<div class="campo"><label for="f-quien">¿Quién eres?</label>
+        <select id="f-quien">${libres.map(p => `<option value="${p.id}">${esc(p.nombre)}</option>`).join("")}</select></div>`,
+    clave: `<div class="fila">
+        <div class="campo"><label for="f-clave">Crea tu clave <span class="ayuda">Mínimo 4 caracteres.</span></label>
+          <input type="password" id="f-clave" autocomplete="new-password"></div>
+        <div class="campo"><label for="f-clave2">Repítela</label>
+          <input type="password" id="f-clave2" autocomplete="new-password"></div>
+      </div>
+      <div class="aviso" style="margin-bottom:18px">Guarda bien esa clave: es la única forma de abrir tu amigo secreto después. Si se te pierde, el organizador te la puede consultar.</div>`,
+    boton: "Guardar mi inscripción"
+  }));
+
+  let foto = null;
+  $("#f-foto", c).addEventListener("change", async e => {
+    const a = e.target.files[0]; if (!a) return;
+    try { foto = await procesarFoto(a); const p = $("#f-prev", c); p.src = foto; p.style.display = "block"; }
+    catch (err) { mostrarError(c, err.message); }
+  });
+
+  $("#f-guardar", c).addEventListener("click", async () => {
+    const id = $("#f-quien", c).value;
+    const clave = $("#f-clave", c).value, clave2 = $("#f-clave2", c).value;
+
+    if (clave.length < 4) return mostrarError(c, "La clave necesita al menos 4 caracteres.");
+    if (clave !== clave2) return mostrarError(c, "Las dos claves no coinciden.");
+    if (!window.isSecureContext) return mostrarError(c, "Abre la página por https (o localhost) para poder cifrar tu clave.");
+
+    const btn = $("#f-guardar", c); btn.disabled = true; btn.textContent = "Guardando…";
+    try {
+      const par = await generarParLlaves();
+      await almacen.guardar("participantes/" + id, {
+        nombre: CONFIG.participantes.find(n => slug(n) === id),
+        foto,
+        publica: par.publica,
+        privada: await cifrarBytes(clave, par.privada),
+        creado: Date.now()
+      });
+      cerrarModal();
+    } catch (err) {
+      btn.disabled = false; btn.textContent = "Guardar mi inscripción";
+      mostrarError(c, "No se pudo guardar: " + err.message);
+    }
+  });
+}
+
+function abrirEdicion() {
+  const lista = inscritos();
+  if (!lista.length) return abrirRegistro();
+
+  const c = abrirModal("Editar lo mío", `
+    <div class="campo"><label for="e-quien">¿Quién eres?</label>
+      <select id="e-quien">${lista.map(p => `<option value="${p.id}">${esc(p.nombre)}</option>`).join("")}</select></div>
+    <div class="campo"><label for="e-clave">Tu clave</label><input type="password" id="e-clave"></div>
+    <button class="cta" id="e-entrar">Entrar</button>`);
+
+  $("#e-entrar", c).addEventListener("click", async () => {
+    const id = $("#e-quien", c).value, clave = $("#e-clave", c).value;
+    const d = estado.datos.participantes[id];
+    try { await descifrarBytes(clave, d.privada); }
+    catch { return mostrarError(c, "Esa clave no es la de esa persona."); }
+    formularioEdicion(id, d);
+  });
+}
+
+function formularioEdicion(id, d) {
+  const nombre = CONFIG.participantes.find(n => slug(n) === id);
+  const c = abrirModal("Editar lo de " + nombre, formularioHTML(d, { selector: "", clave: "", boton: "Guardar cambios" }));
+  let foto = d.foto || null;
+  $("#f-foto", c).addEventListener("change", async e => {
+    const a = e.target.files[0]; if (!a) return;
+    try { foto = await procesarFoto(a); const p = $("#f-prev", c); p.src = foto; p.style.display = "block"; }
+    catch (err) { mostrarError(c, err.message); }
+  });
+  $("#f-guardar", c).addEventListener("click", async () => {
+    await almacen.guardar("participantes/" + id, {
+      ...d, foto
+    });
+    cerrarModal();
+  });
+}
+
+/* ==========================================================================
+   8. VER MI AMIGO SECRETO
+   ========================================================================== */
+function abrirVerMio() {
+  const lista = inscritos();
+  const c = abrirModal("Ver mi amigo secreto", `
+    <div class="campo"><label for="v-quien">¿Quién eres?</label>
+      <select id="v-quien">${lista.map(p => `<option value="${p.id}">${esc(p.nombre)}</option>`).join("")}</select></div>
+    <div class="campo"><label for="v-clave">Tu clave</label><input type="password" id="v-clave"></div>
+    <p class="mini">Mira la pantalla solo tú. Al terminar, usa el botón de ocultar o recarga la página.</p>
+    <button class="cta" id="v-ok">Girar la ruleta</button>`);
+
+  $("#v-ok", c).addEventListener("click", async () => {
+    const id = $("#v-quien", c).value, clave = $("#v-clave", c).value;
+    const d = estado.datos.participantes[id];
+    const ct = estado.datos.sorteo?.asignaciones?.[id];
+    if (!ct) return mostrarError(c, "No hay resultado guardado para esa persona.");
+    let destino;
+    try {
+      const priv = await descifrarBytes(clave, d.privada);
+      destino = await descifrarConPrivada(priv, ct);
+    } catch { return mostrarError(c, "Clave incorrecta."); }
+    cerrarModal();
+    girarYRevelar(destino);
+  });
+}
+
+function girarYRevelar(idDestino) {
+  const disco = $("#disco"), centro = $("#centroRuleta");
+  document.querySelector('[data-tab="sorteo"]').click();
+  $(".ruleta-zona").scrollIntoView({ behavior: "smooth", block: "center" });
+
+  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  centro.textContent = "?";
+
+  const mostrar = () => {
+    const p = estado.datos.participantes[idDestino];
+    const nombre = p?.nombre || CONFIG.participantes.find(n => slug(n) === idDestino) || idDestino;
+    centro.textContent = "★";
+    $("#ladoRuleta").innerHTML = `
+      <div class="revelado">
+        <div class="et">Te toca regalarle a</div>
+        <div class="quien">${esc(nombre)}</div>
+        ${p?.foto ? `<img src="${p.foto}" alt="" style="width:88px;height:88px;border-radius:12px;object-fit:cover;border:1px solid var(--laton)">` : ""}
+        <div class="mini" style="margin-top:16px">Un Funko Pop de hasta ${pesos(CONFIG.presupuesto)} y un cuadro pintado por ti. Si el Funko sale por menos, completa con unas medias random.</div>
+        <div style="margin-top:20px"><button class="cta sec" data-action="ocultar">Ya lo vi, ocultar</button></div>
+      </div>`;
+  };
+
+  if (reducido) return mostrar();
+  const vueltas = 6 + Math.floor(Math.random() * 4);
+  disco.style.transform = `rotate(${vueltas * 360 + Math.random() * 360}deg)`;
+  setTimeout(mostrar, 5100);
+}
+
+function ocultarRevelado() {
+  $("#ladoRuleta").innerHTML = `
+    <div class="aviso" id="avisoRuleta">Listo. Nadie más verá eso hasta que vuelvas a entrar con tu clave.</div>
+    <p style="margin-top:18px"><button class="cta" data-action="ver-mio">Ver mi amigo secreto</button></p>`;
+  $("#centroRuleta").textContent = "?";
+}
+
+/* ==========================================================================
+   9. PANEL DEL ORGANIZADOR
+   ========================================================================== */
+function abrirAdmin() {
+  if (!estado.datos.admin?.prueba) {
+    const c = abrirModal("Configurar organizador", `
+      <p>Nadie ha reclamado el rol de organizador de este juego todavía. Crea tu clave: con ella lanzas el sorteo y consultas la lista completa si hay confusiones.</p>
+      <div class="campo"><label for="a-c1">Clave del organizador</label><input type="password" id="a-c1"></div>
+      <div class="campo"><label for="a-c2">Repítela</label><input type="password" id="a-c2"></div>
+      <button class="cta" id="a-crear">Guardar clave</button>`);
+    $("#a-crear", c).addEventListener("click", async () => {
+      const c1 = $("#a-c1", c).value, c2 = $("#a-c2", c).value;
+      if (c1.length < 6) return mostrarError(c, "Usa mínimo 6 caracteres; esta clave abre todo.");
+      if (c1 !== c2) return mostrarError(c, "No coinciden.");
+      await almacen.guardar("admin/prueba", await cifrarTexto(c1, "organizador-ok"));
+      cerrarModal(); abrirAdmin();
+    });
+    return;
+  }
+
+  const c = abrirModal("Panel del organizador", `
+    <div class="campo"><label for="a-clave">Clave del organizador</label><input type="password" id="a-clave"></div>
+    <button class="cta" id="a-entrar">Entrar</button>`);
+  $("#a-entrar", c).addEventListener("click", async () => {
+    const clave = $("#a-clave", c).value;
+    try { await descifrarTexto(clave, estado.datos.admin.prueba); }
+    catch { return mostrarError(c, "Clave incorrecta."); }
+    panelAdmin(clave);
+  });
+}
+
+async function panelAdmin(clave) {
+  const faltan = pendientes(), hecho = sorteoHecho();
+  let cuerpo = "";
+
+  if (hecho) {
+    let filas = "<tr><td colspan='2'>No se pudo abrir la lista con esa clave.</td></tr>";
+    try {
+      const mapa = JSON.parse(await descifrarTexto(clave, estado.datos.sorteo.respaldo));
+      filas = Object.entries(mapa).map(([a, b]) =>
+        `<tr><td>${esc(estado.datos.participantes[a]?.nombre || a)}</td>
+             <td>→ ${esc(estado.datos.participantes[b]?.nombre || b)}</td></tr>`).join("");
+    } catch {}
+    cuerpo = `<div class="oktxt">Sorteo hecho el ${new Date(estado.datos.sorteo.fecha).toLocaleString("es-CO")}.</div>
+      <p class="mini">Esta lista solo la ves tú, y solo con tu clave. Úsala si alguien pierde su clave o se enreda.</p>
+      <table><thead><tr><th>Quien regala</th><th>Le regala a</th></tr></thead><tbody>${filas}</tbody></table>
+      <div style="margin-top:22px"><button class="cta sec" id="a-reset">Anular el sorteo y volver a empezar</button></div>`;
+  } else if (faltan.length) {
+    cuerpo = `<div class="err">Faltan ${faltan.length}: ${esc(faltan.map(p => p.nombre).join(", "))}.</div>
+      <p>El sorteo se habilita cuando estén todos. Si alguien no va a jugar, quítalo de <code>CONFIG.participantes</code> en el código.</p>`;
+  } else {
+    cuerpo = `<div class="oktxt">Las ${CONFIG.participantes.length} personas están listas.</div>
+      <p>Al lanzarlo, cada quien queda con un resultado cifrado con su propia clave. Nadie —ni tú desde aquí— puede ver el de otro sin la clave. Tú guardas una copia completa cifrada con la tuya.</p>
+      <p class="mini">Esto no se puede deshacer sin anular el sorteo.</p>
+      <button class="cta rojo" id="a-lanzar">Lanzar el sorteo</button>`;
+  }
+
+  const c = abrirModal("Panel del organizador", cuerpo);
+
+  $("#a-lanzar", c)?.addEventListener("click", async () => {
+    const btn = $("#a-lanzar", c); btn.disabled = true; btn.textContent = "Sorteando…";
+    try { await lanzarSorteo(clave); cerrarModal(); }
+    catch (e) { btn.disabled = false; btn.textContent = "Lanzar el sorteo"; mostrarError(c, e.message); }
+  });
+
+  $("#a-reset", c)?.addEventListener("click", async () => {
+    if (!confirm("¿Seguro? Se borran todos los resultados y hay que volver a sortear.")) return;
+    await almacen.guardar("sorteo", null);
+    cerrarModal();
+  });
+}
+
+/* --- Sorteo: cadena única, así nadie se saca a sí mismo --- */
+function cadena(ids) {
+  const a = ids.slice();
+  for (let i = a.length - 1; i > 0; i--) {          // Sattolo: siempre un solo ciclo
+    const j = Math.floor(Math.random() * i);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  const m = {};
+  a.forEach((id, i) => m[id] = a[(i + 1) % a.length]);
+  return m;
+}
+function cumpleExclusiones(m) {
+  return CONFIG.exclusiones.every(([x, y]) => {
+    const a = slug(x), b = slug(y);
+    return m[a] !== b && m[b] !== a;
+  });
+}
+
+async function lanzarSorteo(claveAdmin) {
+  const ids = inscritos().map(p => p.id);
+  if (ids.length < 3) throw new Error("Se necesitan al menos 3 participantes.");
+
+  let mapa = null;
+  for (let t = 0; t < 8000 && !mapa; t++) {
+    const intento = cadena(ids);
+    if (cumpleExclusiones(intento)) mapa = intento;
+  }
+  if (!mapa) throw new Error("Las exclusiones configuradas no permiten un sorteo válido.");
+
+  const asignaciones = {};
+  for (const [quien, aQuien] of Object.entries(mapa)) {
+    asignaciones[quien] = await cifrarConPublica(estado.datos.participantes[quien].publica, aQuien);
+  }
+  await almacen.guardar("sorteo", {
+    fecha: Date.now(),
+    asignaciones,
+    respaldo: await cifrarTexto(claveAdmin, JSON.stringify(mapa))
+  });
+}
+
+/* ==========================================================================
+   10. NAVEGACIÓN Y ARRANQUE
+   ========================================================================== */
+$$(".tab").forEach(b => b.addEventListener("click", () => {
+  $$(".tab").forEach(o => o.setAttribute("aria-selected", String(o === b)));
+  ["inicio", "sorteo"].forEach(t => $("#panel-" + t).hidden = (t !== b.dataset.tab));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}));
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-action]"); if (!b) return;
+  ({ "abrir-registro": abrirRegistro, "editar-mios": abrirEdicion,
+     "ver-mio": abrirVerMio, "abrir-admin": abrirAdmin,
+     "ocultar": ocultarRevelado })[b.dataset.action]?.();
+});
+
+almacen.alCambiar(d => {
+  estado.datos = { participantes: {}, sorteo: null, admin: null, ...d };
+  pintarTodo();
+  $("#estadoConexion").textContent = almacen.usaFirebase ? "Conectado en vivo" : "Modo demo (solo este navegador)";
+});
+
+if (!almacen.usaFirebase) {
+  $("#banner").innerHTML = `<div class="banner-demo">Modo demo: los datos solo viven en este navegador. Pega tu configuración de Firebase en el archivo.</div>`;
+}
+
+pintarTodo();
+almacen.iniciar().catch(err => {
+  $("#estadoConexion").textContent = "Error de conexión";
+  $("#banner").innerHTML = `<div class="banner-demo">No se pudo conectar con Firebase: ${esc(err.message)}</div>`;
+});
+</script>
+</body>
+</html>
